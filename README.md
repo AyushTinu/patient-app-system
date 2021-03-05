@@ -1,4 +1,7 @@
 # patient-app-system
+
+## still a work in progress
+
 first php project of a hospital/ clinic system
 
 this is a simple PHP project where we can register any patient into a mysql server which then can be logged in by the user
