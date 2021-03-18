@@ -3,52 +3,7 @@
 require 'patient_dbcon.php';
 
 session_start();
-
-$patient_username = $patient_password = "";
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
-    $error = "";
-    
-    $username = $_POST["patient_username"];
-    $password = $_POST["patient_password"];
-    
-    if(empty($username)){
-        $error = "please Enter username";    
-    }
-    elseif(empty($password)){
-        $error = "please Enter Password";
-    }
-    elseif(empty($error)){
-    $check_str = $db_host->prepare("select * from patient_account where (patient_username = :username) && (patient_password = :password)");
-    $check_str -> bindParam(':username', $username, PDO::PARAM_STR);
-    $check_str -> bindParam(':password', $password, PDO::PARAM_STR);
-    
-    $check_str->execute();
-    
-    //$result = $check_str->fetch(PDO::FETCH_OBJ);
-    
-    if($check_str->rowCount() > 0){
-        //this session variable will be used in whole session 
-        $_SESSION['patient_username'] = $username;
-        //$_SESSION['patient_fname'] = $patient_fname;
-        
-        if($password_entered = $password){
-            echo "<h3 style='font-family:verdana'>login successful! please wait </h3>";
-            header("Refresh:3 ; url=patient_welcome.php");
-        
-        }
-    }
-    else{
-        $error = "Incorrect username or password";
-    }
-    }
- }
-unset($check_str);
-unset($db_host);
-
 ?>
-   
 
    <html>
     <head>
@@ -63,7 +18,7 @@ unset($db_host);
           <label><b>Enter username :</b></label><br>
           <input type="text" name="patient_username" placeholder="Enter username"> <br><br>
            <label><b>Enter Password :</b></label><br>
-           <input type="password" name="patient_password" placeholder="Enter password"> <br><br>
+           <input type="text" name="patient_password" placeholder="Enter password"> <br><br>
            
            <button name="login-btn" style="font-family:verdana">Login</button>
            <label><a href="patient_register.php">Create new account</a></label>
@@ -77,3 +32,62 @@ unset($db_host);
        </form> 
     </body>
 </html>
+
+<?php
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    
+    $error = "";
+    
+    $username = $_POST["patient_username"];
+    $password_entered = $_POST["patient_password"];
+    $password = "";
+    
+    if(empty($username)){
+        $error = "please Enter username";
+        echo $error;
+        die();
+    }
+    elseif(empty($password_entered)){
+        $error = "please Enter Password";
+        echo $error;
+        die();
+    }
+    elseif(empty($error)){
+      $check_str = $db_host->prepare("select * from patient_account where patient_username= :username");
+      $check_str -> bindParam(':username', $username, PDO::PARAM_STR);
+       
+      $check_str->execute();
+      
+      if($check_str->rowCount() > 0){
+          
+          while($row = $check_str->fetch()){
+              $password = $row['patient_password'];
+          }
+          
+          if($password_entered == $password){
+              
+              echo "<h3 style='font-family:verdana'>login successful! please wait </h3>";
+              
+              //this session variable will be used in whole session 
+              $_SESSION['patient_username'] = $username;
+          
+              header("Refresh:0.5 ; url=patient_welcome.php");
+          
+          }else{
+              $error = "Incorrect Password, re-enter password or reset password";
+              die();
+          }
+      }
+      else{
+          $error = "Incorrect username, the username is not registered";
+      }
+      }
+      echo $error;
+ } 
+unset($check_str);
+unset($db_host);
+
+?>
+   

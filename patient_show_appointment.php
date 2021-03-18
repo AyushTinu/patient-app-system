@@ -62,7 +62,7 @@ session_start();
        
         <?php
             if(isset($_POST['home'])){
-                header("location:patient_welcome.php");
+                header("Refresh:0.2;url=patient_welcome.php");
             }
         ?>
     </body>
