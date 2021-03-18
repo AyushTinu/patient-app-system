@@ -22,7 +22,7 @@
 
         include 'admin_dbcon.php';
 
-        $query = "select * from clinic order by clinic_town, clinic_city, cid asc";
+        $query = "select * from clinic order by clinic_state, clinic_city, cid asc";
 
         $check_q = $db_host->prepare($query);
         $check_q->execute();
@@ -43,7 +43,7 @@
             echo "<td>".$row['cid']."</td>";
             echo "<td>".$row['clinic_name']."</td>";
             echo "<td>".$row['clinic_address']."</td>";
-            echo "<td>".$row['clinic_town']."</td>";
+            echo "<td>".$row['clinic_state']."</td>";
             echo "<td>".$row['clinic_city']."</td>";
             echo "<td>".$row['clinic_contact']."</td>";
             echo "</tr>";

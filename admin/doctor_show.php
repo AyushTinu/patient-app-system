@@ -8,6 +8,7 @@
         }
         form{
             font-family: verdana;
+            border: 1px solid black;
         }
     </style>
 </head>
@@ -59,8 +60,8 @@
 
         unset($db_host);
         ?>
-        </table>
-        <button name="returnadmin"><b>Return to admin page</b></button>
+        </table><br>
+        <center><button name="returnadmin"><b>Return to admin page</b></button></center>
 	</form>
 	
 </body>

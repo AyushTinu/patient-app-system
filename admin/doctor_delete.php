@@ -37,15 +37,20 @@ if(isset($_POST["submit"])){
 
 	//if did is avaliable here we'll delete the row 
 	if($check_stm->rowCount() > 0){
-		$delete_q = "delete from doctor_account where did = :did";
+        // Here We Delete form the doctor account table
 
-		$delete_stm = $db_host->prepare($delete_q);
+		$delete_stm = $db_host->prepare("delete from doctor_account where did = :did");
 		$delete_stm->bindValue(':did', $did);
 		if($delete_stm->execute()){
-			echo "the doctor is deleted";
-			header("Refresh:1; url=mainpage.php");
+            $delete_da = $db_host->prepare("delete from doctor_availability where did = :didda");
+            $delete_da -> bindValue(':didda', $did);
+            if($delete_da->execute()){
+			     echo "the doctor is deleted";
+			     //header("Refresh:0.5; url=mainpage.php");
+            }
 		}
-		else{
+		else
+        {
 			echo "some error occured";
 		}
 

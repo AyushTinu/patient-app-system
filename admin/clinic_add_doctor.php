@@ -109,7 +109,7 @@ if(isset($_POST['submit'])){
     $endtime = $_POST['endtime'];
     
     foreach($_POST['daylist'] as $daylist){
-        $sql_i = "insert into doctor_avaliablity (cid, did, day, start_time, end_time) values (:cid, :did, :daylist, :starttime, :endtime)";
+        $sql_i = "insert into doctor_availability (cid, did, day, start_time, end_time) values (:cid, :did, :daylist, :starttime, :endtime)";
         $exe_q = $db_host->prepare($sql_i);
         if($exe_q->execute(array(':cid' => $cid,
                                  ':did' => $did,

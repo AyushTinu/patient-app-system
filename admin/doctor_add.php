@@ -52,17 +52,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 	if(isset($_POST['submit'])){
 
-		$did = $_POST['did'];
-		$dname = $_POST['dname'];
-		$daddress = $_POST['daddress'];
-		$dgender = $_POST['dgender'];
-		$ddob = $_POST['ddob'];
-		$dexp = $_POST['dexp'];
-		$dspecial = $_POST['dspecial'];
-		$dusername = $_POST['dusername'];
-		$dpassword = $_POST['dpassword'];
-		$dregion = $_POST['dregion'];
+		$did = trim($_POST['did']);
+		$dname = trim($_POST['dname']);
+		$daddress = trim($_POST['daddress']);
+		$dgender = trim($_POST['dgender']);
+		$ddob = trim($_POST['ddob']);
+		$dexp = trim($_POST['dexp']);
+		$dspecial = trim($_POST['dspecial']);
+		$dusername = trim($_POST['dusername']);
+		$dpassword = trim($_POST['dpassword']);
+		$dcontact = trim($_POST['dcontact']);
+		$dregion = trim($_POST['dregion']);
 
+		if(empty($did) && empty($dname) && empty($daddress) && empty($dgender) && empty($ddob) && empty($dexp) && empty($dspecial) && empty($dusername) && empty($dpassword) && empty($dcontact) && empty($dregion)){
+			echo "Please fill all the fields";
+		}
+		else{
 		$query = "select * from doctor_account where did = :did";
 
 		$check_stm = $db_host->prepare($query);
@@ -75,7 +80,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		else{
 
-			$query_insert = "insert into doctor_account (did, doctor_name, doctor_address, doctor_gender, doctor_dob, doctor_experience, doctor_specialization, doctor_username, doctor_password, doctor_contact, doctor_region)
+			$query_insert = "insert into doctor_account 
+			(did, doctor_name, doctor_address, doctor_gender, doctor_dob, doctor_experience, doctor_specialization, doctor_username, doctor_password, doctor_contact, doctor_region)
 			 value (:did , :dname, :daddress, :dgender, :ddob, :dexp, :dspecial, :dusername, :dpassword, :dcontact, :dregion)";
 			$insert_q = $db_host->prepare($query_insert);
 			if($insert_q->execute(array(
@@ -88,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 				':dspecial' => $dspecial,
 				':dusername' => $dusername,
 				':dpassword' => $dpassword,
-				':dcontact' => $dpassword,
+				':dcontact' => $dcontact,
 				':dregion' => $dregion
 			))){
 				echo "Doctor Registered Successfully";
@@ -102,7 +108,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 
 	unset($check_stm);
-	}
 	unset($db_host);
+		}
+	}
 }
 ?>
