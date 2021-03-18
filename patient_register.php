@@ -34,7 +34,7 @@
      }
     
     if(empty($error)){
-   	    $check_str = $db_host -> prepare("SELECT * FROM patient_account WHERE patient_username, patient_email = :patient_username, :patient_email");
+   	    $check_str = $db_host -> prepare("SELECT * FROM patient_account WHERE (patient_username = :patient_username) && (patient_email = :patient_email)");
    	    $check_str -> bindParam(':patient_username', $patient_username);
         $check_str -> bindParam(':patient_email', $patient_email);
    	    $check_str -> execute();
